@@ -1,61 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using Bogus;
-using Bogus.DataSets;
-using ElectricityBillMSIC.Core;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using ElectricityBillMSIC.Application;
+using ElectricityBillMSIC.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ElectricityBillMSIC
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            const int clientsCount = 5;
+            var host = CreateHostBuilder(args).Build();
 
-            var subscriptionFaker = new Faker<Subscription>()
-                .StrictMode(true)
-                .RuleFor(c => c.Id, f => f.Random.Guid())
-                .RuleFor(c => c.SubscriptionType, f => f.PickRandom<SubscriptionType>());
+            var cts = new CancellationTokenSource();
 
-            var subscriptions = new List<Subscription>();
+            await host.Services.GetRequiredService<ConsoleService>().RunAsync(cts.Token);
+        }
 
-            var clientFaker = new Faker<Client>()
-                .StrictMode(true)
-                .RuleFor(c => c.Code, f => f.Random.String2(6, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))
-                .RuleFor(c => c.Gender, f => f.PickRandom<Gender>())
-                .RuleFor(c => c.FirstName, (f, c) => f.Name.FirstName((Name.Gender)c.Gender))
-                .RuleFor(c => c.LastName, (f, c) => f.Name.LastName((Name.Gender)c.Gender))
-                .RuleFor(c => c.Address, f => f.Address.FullAddress())
-                .RuleFor(c => c.SubscriptionId, f => f.Random.Guid())
-                .FinishWith((f, c) =>
-                {
-                    var clientSubscription = subscriptionFaker.Generate();
-                    clientSubscription.Id = c.SubscriptionId;
-
-                    subscriptions.Add(clientSubscription);
-                });
-
-            var clients = clientFaker.Generate(clientsCount);
-
-            Console.WriteLine("Clients:");
-            foreach (var client in clients)
-            {
-                Console.WriteLine(client.Code);
-                Console.WriteLine("{0} {1}", client.FirstName, client.LastName);
-                Console.WriteLine(client.Address);
-                Console.WriteLine(client.SubscriptionId);
-                Console.WriteLine("-------------------------------------------------");
-            }
-
-            Console.WriteLine("#################################################");
-
-            Console.WriteLine("Subscriptions:");
-            foreach (var subscription in subscriptions)
-            {
-                Console.WriteLine(subscription.Id);
-                Console.WriteLine(subscription.SubscriptionType);
-                Console.WriteLine("-------------------------------------------------");
-            }
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                       .ConfigureServices(services =>
+                       {
+                           services.AddSingleton<ConsoleService>().AddCore();
+                       });
         }
     }
 }

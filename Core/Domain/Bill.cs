@@ -1,4 +1,4 @@
-﻿namespace ElectricityBillMSIC.Core
+﻿namespace ElectricityBillMSIC.Core.Domain
 {
     public class Bill
     {

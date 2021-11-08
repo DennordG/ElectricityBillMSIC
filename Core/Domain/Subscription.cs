@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElectricityBillMSIC.Core
+namespace ElectricityBillMSIC.Core.Domain
 {
     public class Subscription
     {
