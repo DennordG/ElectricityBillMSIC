@@ -2,9 +2,14 @@
 {
     public enum UserMenuDecisionType
     {
-        Exit,
+        ClearConsole,
         AddNewClient,
-        ShowClient,
-        ShowAllClients,
+        ShowClientInfo,
+        ShowAllClientsInfo,
+        ShowClientBills,
+        ShowClientBillsByAddress,
+        ShowClientsGroupedByOverdueness,
+        ShowClientsThatHaveToPayMoreThan,
+        Exit,
     }
 }

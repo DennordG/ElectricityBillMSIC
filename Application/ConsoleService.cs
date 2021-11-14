@@ -20,11 +20,19 @@ namespace ElectricityBillMSIC.Application
             {
                 Console.WriteLine("Menu:");
                 Console.WriteLine("1. Add new client");
-                Console.WriteLine("2. Show client");
-                Console.WriteLine("3. Show all clients");
+                Console.WriteLine("2. Show client info");
+                Console.WriteLine("3. Show client bills");
+                Console.WriteLine("4. Show client bills by address");
+                Console.WriteLine("5. Show clients grouped by overdueness");
+                Console.WriteLine("6. Show clients that have to pay more than");
                 Console.WriteLine("Esc. Exit");
 
                 var userMenuDecision = UserMenuDecisionParser.GetUserMenuDecisionFromConsole();
+                if (userMenuDecision == UserMenuDecisionType.ClearConsole)
+                {
+                    Console.Clear();
+                    continue;
+                }
 
                 var decisionHandlerParameter = GetDecisionHandlerParameter(userMenuDecision);
 

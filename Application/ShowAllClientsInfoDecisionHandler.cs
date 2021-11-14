@@ -4,16 +4,16 @@ using ElectricityBillMSIC.Extensions;
 
 namespace ElectricityBillMSIC.Application
 {
-    internal class ShowAllClientsDecisionHandler : IUserMenuDecisionHandler
+    internal class ShowAllClientsInfoDecisionHandler : IUserMenuDecisionHandler
     {
         private readonly IClientRepository _clientRepository;
 
-        public ShowAllClientsDecisionHandler(IClientRepository clientRepository)
+        public ShowAllClientsInfoDecisionHandler(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
         }
 
-        public UserMenuDecisionType ApplicableType => UserMenuDecisionType.ShowAllClients;
+        public UserMenuDecisionType ApplicableType => UserMenuDecisionType.ShowAllClientsInfo;
 
         public Task<bool> HandleAsync(UserMenuDecisionHandlerParameter parameter)
         {

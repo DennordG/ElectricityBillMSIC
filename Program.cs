@@ -18,7 +18,7 @@ namespace ElectricityBillMSIC
             await host.Services.GetRequiredService<ConsoleService>().RunAsync(cts.Token);
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                        .ConfigureServices(services =>

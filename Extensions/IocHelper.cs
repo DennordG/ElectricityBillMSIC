@@ -13,14 +13,20 @@ namespace ElectricityBillMSIC.Extensions
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            return services.AddSingleton<IClientRepository, ClientRepository>();
+            return services.AddSingleton<IClientRepository, ClientDictionaryRepository>()
+                           .AddSingleton<ISubscriptionRepository, SubscriptionDictionaryRepository>()
+                           .AddSingleton<IBillRepository, BillDictionaryRepository>();
         }
 
         private static IServiceCollection AddUserMenuDecisionHandlers(this IServiceCollection services)
         {
             return services.AddTransient<IUserMenuDecisionHandler, AddNewClientDecisionHandler>()
-                           .AddTransient<IUserMenuDecisionHandler, ShowClientDecisionHandler>()
-                           .AddTransient<IUserMenuDecisionHandler, ShowAllClientsDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowClientInfoDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowAllClientsInfoDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowClientBillsDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowClientBillsByAddressDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowClientsGroupedByOverduenessDecisionHandler>()
+                           .AddTransient<IUserMenuDecisionHandler, ShowClientsThatHaveToPayMoreThanDecisionHandler>()
                            .AddTransient<IUserMenuDecisionHandler, ExitDecisionHandler>()
                            .AddTransient<IUserMenuDecisionsHandler, UserMenuDecisionsHandler>();
         }

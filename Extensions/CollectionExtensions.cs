@@ -14,6 +14,14 @@ namespace ElectricityBillMSIC.Extensions
             }
         }
 
+        public static void Do<T>(this IEnumerable<T> source, Action<T, int> action)
+        {
+            foreach (var (item, idx) in source.Select((item, idx) => (item, idx)))
+            {
+                action(item, idx);
+            }
+        }
+
         public static IEnumerable<T> DoLazy<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (var item in source)

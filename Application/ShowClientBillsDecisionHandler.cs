@@ -4,20 +4,23 @@ using ElectricityBillMSIC.Extensions;
 
 namespace ElectricityBillMSIC.Application
 {
-    internal class ShowClientDecisionHandler : IUserMenuDecisionHandler
+    internal class ShowClientBillsDecisionHandler : IUserMenuDecisionHandler
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IBillRepository _billRepository;
 
-        public ShowClientDecisionHandler(IClientRepository clientRepository)
+        public ShowClientBillsDecisionHandler(IClientRepository clientRepository, IBillRepository billRepository)
         {
             _clientRepository = clientRepository;
+            _billRepository = billRepository;
         }
 
-        public UserMenuDecisionType ApplicableType => UserMenuDecisionType.ShowClient;
+        public UserMenuDecisionType ApplicableType => UserMenuDecisionType.ShowClientBills;
 
         public Task<bool> HandleAsync(UserMenuDecisionHandlerParameter parameter)
         {
             parameter.Writer.WriteLine();
+
             parameter.Writer.Write("Input the client code: ");
 
             var code = parameter.Reader.ReadLine().Trim();
@@ -25,7 +28,7 @@ namespace ElectricityBillMSIC.Application
             var client = _clientRepository.Get(code);
             if (client != null)
             {
-                client.Print(parameter.Writer);
+                _billRepository.GetAll(client.Code).Print(parameter.Writer);
             }
             else
             {
