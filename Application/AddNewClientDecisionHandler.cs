@@ -33,7 +33,7 @@ namespace ElectricityBillMSIC.Application
 
                 GenerateClientBills(client);
 
-                parameter.Writer.WriteLine("Generated bills for the new client.", client.Code);
+                parameter.Writer.WriteLine("Generated bills for the new client.");
             }
             else
             {

@@ -17,6 +17,13 @@ namespace ElectricityBillMSIC.Application
 
         public async Task<bool> HandleAsync(UserMenuDecisionHandlerParameter parameter, CancellationToken cancellationToken = default)
         {
+            var handler = ValidateParameterAndGetHandler(parameter);
+
+            return await handler.HandleAsync(parameter);
+        }
+
+        private IUserMenuDecisionHandler ValidateParameterAndGetHandler(UserMenuDecisionHandlerParameter parameter)
+        {
             if (parameter == null)
             {
                 throw new ArgumentNullException(nameof(parameter));
@@ -27,7 +34,7 @@ namespace ElectricityBillMSIC.Application
                 throw new InvalidOperationException($"Unhandled user decision {parameter.DecisionType}");
             }
 
-            return await handler.HandleAsync(parameter);
+            return handler;
         }
     }
 }
